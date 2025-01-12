@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "592007239663",
+    "project_id": "meaningmate",
+    "storage_bucket": "meaningmate.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592007239663:android:c60f2561aa29e5f8ef481a",
+        "android_client_info": {
+          "package_name": "com.meaning"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqac4tkStwOeXkJ7LoZvCSXZzyeaZGq4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592007239663:android:e13d302a11abc740ef481a",
+        "android_client_info": {
+          "package_name": "com.meaningmate.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqac4tkStwOeXkJ7LoZvCSXZzyeaZGq4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

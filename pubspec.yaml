@@ -40,6 +40,8 @@ dependencies:
   page_transition: ^2.2.1
   permission_handler: ^11.3.1
   dot_navigation_bar: ^1.0.2
+  get: ^4.6.6
+  change_app_package_name: ^1.4.0
 
 dev_dependencies:
   flutter_test:

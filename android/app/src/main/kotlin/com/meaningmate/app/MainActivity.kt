@@ -1,4 +1,4 @@
-package com.example.meaning_mate
+package com.meaningmate.app
 
 import io.flutter.embedding.android.FlutterActivity
 
