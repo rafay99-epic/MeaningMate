@@ -29,8 +29,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/svg/feature1.svg
-    - assets/svg/feature2.svg
+    - assets/svg/
 
   # fonts:
   #   - family: Schyler

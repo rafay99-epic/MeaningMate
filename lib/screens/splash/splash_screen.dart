@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:meaning_mate/screens/auth/login_screen.dart';
 import 'package:meaning_mate/utils/image.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -53,8 +55,24 @@ class SplashScreen extends StatelessWidget {
           ),
         ),
       ],
-      onDone: () {},
-      onSkip: () {},
+      onDone: () {
+        Navigator.pushReplacement(
+          context,
+          PageTransition(
+            type: PageTransitionType.leftToRight,
+            childBuilder: (context) => const LoginScreen(),
+          ),
+        );
+      },
+      onSkip: () {
+        Navigator.pushReplacement(
+          context,
+          PageTransition(
+            type: PageTransitionType.leftToRight,
+            childBuilder: (context) => const LoginScreen(),
+          ),
+        );
+      },
       showSkipButton: true,
       skip: const Text('Skip'),
       next: const Icon(Icons.arrow_forward),
