@@ -5,6 +5,7 @@ class CustomTextField extends StatefulWidget {
   final IconData icon;
   final TextEditingController controller;
   final bool isPassword;
+  final bool isNumber;
 
   const CustomTextField({
     super.key,
@@ -12,6 +13,7 @@ class CustomTextField extends StatefulWidget {
     required this.icon,
     required this.controller,
     required this.isPassword,
+    this.isNumber = false,
   });
 
   @override
@@ -29,6 +31,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: TextField(
         controller: widget.controller,
         obscureText: widget.isPassword ? _isObscured : false,
+        keyboardType:
+            widget.isNumber ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
           hintText: widget.hintText,
           hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),

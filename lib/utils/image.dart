@@ -6,3 +6,7 @@ class IntroScreenImage {
 class LoginScreenImage {
   static String logo = "assets/svg/login_logo.svg";
 }
+
+class RegisterScreenImage {
+  static String logo = "assets/svg/create_account.svg";
+}
