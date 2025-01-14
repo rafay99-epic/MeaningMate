@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meaning_mate/screens/auth/register_screen.dart';
+import 'package:meaning_mate/screens/home/home_screen.dart';
 import 'package:meaning_mate/utils/image.dart';
 import 'package:meaning_mate/utils/sizes.dart';
 import 'package:meaning_mate/widgets/text_field.dart';
@@ -78,7 +79,15 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: spacing),
               // Login Button
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.leftToRight,
+                      child: Home(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
                   textStyle: const TextStyle(fontSize: 18),

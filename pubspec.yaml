@@ -20,6 +20,8 @@ dependencies:
   provider: ^6.1.2
   introduction_screen: ^3.1.14
   flutter_svg: ^2.0.17
+  google_nav_bar: ^5.0.7
+  line_icons: ^2.0.3
 
 dev_dependencies:
   flutter_test:
