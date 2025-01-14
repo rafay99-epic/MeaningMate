@@ -8,21 +8,29 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  analyze:
-    name: Analyze Dart Code
+  analysis:
     runs-on: ubuntu-latest
 
+    name: Code Analysis
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Update & Upgrade System
+        run: sudo apt-get update -y && sudo apt-get upgrade -y
 
-      - name: Set up Flutter
+      - name: git-checkout
+        uses: actions/checkout@v2
+
+      - name: Flutter setup
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: stable
+          flutter-version: "3.24.4"
 
-      - name: Install Dart Dependencies
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+
+      - name: Flutter Install Project Dependencies
         run: flutter pub get
 
-      - name: Analyze Dart Code
-        run: dart analyze
+      - name: Analyze Flutter Code
+        run: flutter analyze
