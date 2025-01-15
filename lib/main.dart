@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:meaning_mate/firebase_options.dart';
-import 'package:meaning_mate/screens/errorhandelling/errorHandelling.dart';
+import 'package:meaning_mate/screens/errorhandelling/error_handelling.dart';
 import 'package:meaning_mate/screens/splash/splash_screen.dart';
 import 'package:meaning_mate/utils/colors.dart';
 
