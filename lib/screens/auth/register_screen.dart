@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:meaning_mate/repositories/auth_repository.dart';
 import 'package:meaning_mate/screens/auth/login_screen.dart';
 import 'package:meaning_mate/utils/image.dart';
 import 'package:meaning_mate/utils/sizes.dart';
@@ -18,6 +19,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final passwordController = TextEditingController();
   final retypePasswordController = TextEditingController();
   final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+
+  AuthRepository authRepository = AuthRepository();
 
   @override
   void dispose() {
@@ -76,6 +80,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
 
               SizedBox(height: spacing),
+
+              CustomTextField(
+                hintText: "Email",
+                icon: Icons.email,
+                controller: fullNameController,
+                isPassword: false,
+              ),
+
               // Password TextField
               CustomTextField(
                 hintText: "Password",
@@ -99,13 +111,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: "Phone Number",
                 icon: Icons.phone,
                 controller: phoneController,
-                isPassword: true,
+                isPassword: false,
               ),
 
               SizedBox(height: spacing),
               ElevatedButton(
                 onPressed: () {
+                  // Passweord and retype password should be same
+                  if (passwordController.text.trim() !=
+                      retypePasswordController.text.trim()) {
+                    authRepository.showErrorDialog(context, "Password Mismatch",
+                        "Passwords do not match. Please try again.");
+                    return;
+                  }
+
                   // Handle registration
+                  authRepository.register(
+                    context,
+                    fullNameController.text,
+                    emailController.text,
+                    passwordController.text,
+                    phoneController.text,
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),

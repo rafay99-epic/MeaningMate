@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:meaning_mate/repositories/auth_repository.dart';
 import 'package:meaning_mate/screens/auth/register_screen.dart';
-import 'package:meaning_mate/screens/home/home_screen.dart';
 import 'package:meaning_mate/utils/image.dart';
 import 'package:meaning_mate/utils/sizes.dart';
 import 'package:meaning_mate/widgets/text_field.dart';
@@ -28,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceCategory = DeviceType.getDeviceCategory(context);
+    AuthRepository authRepository = AuthRepository();
 
     // Adjusting values based on device type
     double logoWidth;
@@ -87,12 +88,10 @@ class _LoginScreenState extends State<LoginScreen> {
               // Login Button
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  authRepository.login(
                     context,
-                    PageTransition(
-                      type: PageTransitionType.leftToRight,
-                      child: const Home(),
-                    ),
+                    emailController.text.trim(),
+                    passwordController.text.trim(),
                   );
                 },
                 style: ElevatedButton.styleFrom(
