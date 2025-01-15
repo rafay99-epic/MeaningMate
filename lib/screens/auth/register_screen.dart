@@ -20,6 +20,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final phoneController = TextEditingController();
 
   @override
+  void dispose() {
+    fullNameController.dispose();
+    passwordController.dispose();
+    retypePasswordController.dispose();
+    phoneController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final deviceCategory = DeviceType.getDeviceCategory(context);
 

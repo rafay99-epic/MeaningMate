@@ -59,7 +59,7 @@ class SplashScreen extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           PageTransition(
-            type: PageTransitionType.leftToRight,
+            type: PageTransitionType.rightToLeft,
             childBuilder: (context) => const LoginScreen(),
           ),
         );

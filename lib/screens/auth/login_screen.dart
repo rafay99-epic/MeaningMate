@@ -19,6 +19,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
 
   @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final deviceCategory = DeviceType.getDeviceCategory(context);
 
@@ -84,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     context,
                     PageTransition(
                       type: PageTransitionType.leftToRight,
-                      child: Home(),
+                      child: const Home(),
                     ),
                   );
                 },
