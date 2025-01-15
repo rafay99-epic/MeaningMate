@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:meaning_mate/screens/home/add_word_screen.dart';
-import 'package:meaning_mate/screens/home/quiz.dart';
-import 'package:meaning_mate/screens/home/search_screen.dart';
-import 'package:meaning_mate/screens/home/setting.dart';
+import 'package:meaning_mate/screens/words/add_word_screen.dart';
+import 'package:meaning_mate/screens/quiz/quiz.dart';
+import 'package:meaning_mate/screens/search/search_screen.dart';
+import 'package:meaning_mate/screens/setting/setting.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
