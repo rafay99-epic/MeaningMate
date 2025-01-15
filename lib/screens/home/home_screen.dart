@@ -19,7 +19,7 @@ class _HomePageState extends State<Home> {
     const AddWordsPage(),
     const QuizScreen(),
     const SearchScreen(),
-    SettingScreens(),
+    const SettingScreens(),
   ];
 
   void _onItemTapped(int index) {
