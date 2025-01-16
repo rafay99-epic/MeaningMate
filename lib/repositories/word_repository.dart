@@ -29,45 +29,58 @@ class WordRepository {
     }
   }
 
-  // 1. Search through words for the current user
-  Future<List<Word>> searchWords(String query) async {
+  Future<void> deleteWord(String word) async {
     final userEmail = _getCurrentUserEmail();
     if (userEmail == null) {
       throw Exception('No user is currently logged in.');
     }
 
     try {
-      final snapshot = await firestore
+      await firestore
+          .collection('users')
+          .doc(userEmail)
+          .collection('words')
+          .doc(word)
+          .delete();
+    } catch (e) {
+      throw Exception('Error deleting word: $e');
+    }
+  }
+
+  Stream<List<Word>> searchWords(String query) {
+    final userEmail = _getCurrentUserEmail();
+    if (userEmail == null) {
+      throw Exception('No user is currently logged in.');
+    }
+
+    try {
+      final stream = firestore
           .collection('users')
           .doc(userEmail)
           .collection('words')
           .where('word', isGreaterThanOrEqualTo: query)
           .where('word', isLessThanOrEqualTo: '$query\uf8ff')
-          .get();
+          .snapshots();
 
-      return snapshot.docs.map((doc) => Word.fromMap(doc.data())).toList();
+      return stream.map((snapshot) =>
+          snapshot.docs.map((doc) => Word.fromMap(doc.data())).toList());
     } catch (e) {
       throw Exception('Error searching words: $e');
     }
   }
 
-  // 2. Display all words for the current user
-  Future<List<Word>> getAllWords() async {
+  Stream<List<Word>> getAllWordsStream() {
     final userEmail = _getCurrentUserEmail();
     if (userEmail == null) {
       throw Exception('No user is currently logged in.');
     }
 
-    try {
-      final snapshot = await firestore
-          .collection('users')
-          .doc(userEmail)
-          .collection('words')
-          .get();
-
-      return snapshot.docs.map((doc) => Word.fromMap(doc.data())).toList();
-    } catch (e) {
-      throw Exception('Error fetching words: $e');
-    }
+    return firestore
+        .collection('users')
+        .doc(userEmail)
+        .collection('words')
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Word.fromMap(doc.data())).toList());
   }
 }

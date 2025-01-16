@@ -193,6 +193,7 @@ class _AddWordScreenState extends State<AddWordScreen> {
                     AddWordImage.logo,
                     width: logoWidth,
                   ),
+                  SizedBox(height: spacing),
                   CustomTextField(
                     hintText: 'Word',
                     icon: Icons.text_fields,
@@ -242,6 +243,7 @@ class _AddWordScreenState extends State<AddWordScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(height: spacing),
                 ],
               ),
             ),

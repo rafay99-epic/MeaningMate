@@ -13,24 +13,32 @@ class WordListScreen extends StatefulWidget {
 
 class _WordListScreenState extends State<WordListScreen> {
   final WordRepository _wordRepository = WordRepository();
-  late Future<List<Word>> _wordListFuture;
 
-  @override
-  void initState() {
-    super.initState();
-    _wordListFuture = _fetchWords();
-  }
-
-  Future<List<Word>> _fetchWords() async {
-    return _wordRepository.getAllWords();
+  void _deleteWord(String word) async {
+    try {
+      await _wordRepository.deleteWord(word);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Word deleted successfully.'),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to delete word: $e'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      body: FutureBuilder<List<Word>>(
-        future: _wordListFuture,
+      body: StreamBuilder<List<Word>>(
+        stream: _wordRepository.getAllWordsStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -73,45 +81,89 @@ class _WordListScreenState extends State<WordListScreen> {
             itemCount: words.length,
             itemBuilder: (context, index) {
               final word = words[index];
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 8),
-                shape: Border.all(
-                  color: theme.colorScheme.primary.withOpacity(0.6),
-                  width: 1.5,
+              return Dismissible(
+                key: Key(word.word),
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  alignment: Alignment.centerRight,
+                  color: Colors.red,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                    size: 32,
+                  ),
                 ),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: WordDetailScreen(word: word),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16, horizontal: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            word.word,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                              color: theme.colorScheme.primary,
-                            ),
+                onDismissed: (direction) {
+                  _deleteWord(word.word);
+                },
+                confirmDismiss: (direction) async {
+                  return await showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Delete Word'),
+                      content: const Text(
+                          'Are you sure you want to delete this word?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
+                          },
+                          child: const Text(
+                            'Delete',
+                            style: TextStyle(color: Colors.red),
                           ),
                         ),
-                        const Icon(
-                          Icons.chevron_right,
-                          color: Colors.grey,
-                          size: 28,
-                        ),
                       ],
+                    ),
+                  );
+                },
+                child: Card(
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  shape: Border.all(
+                    color: theme.colorScheme.primary.withOpacity(0.6),
+                    width: 1.5,
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: WordDetailScreen(word: word),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              word.word,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.chevron_right,
+                            color: Colors.grey,
+                            size: 28,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

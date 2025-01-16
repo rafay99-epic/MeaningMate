@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meaning_mate/models/word_model.dart';
 import 'package:meaning_mate/screens/words/word_detail.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SearchResultsList extends StatelessWidget {
   final List<Word> results;
@@ -37,8 +38,9 @@ class SearchResultsList extends StatelessWidget {
             ),
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => WordDetailScreen(word: word),
+              PageTransition(
+                type: PageTransitionType.rightToLeft,
+                child: WordDetailScreen(word: word),
               ),
             ),
           ),
