@@ -107,20 +107,6 @@ class AuthRepository {
     }
   }
 
-  Future<String?> getCurrentUserEmail() async {
-    try {
-      User? user = _auth.currentUser;
-
-      if (user != null) {
-        return user.email;
-      } else {
-        return null;
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
-
   // Register functionality
   Future<void> register(
     BuildContext context,
@@ -172,6 +158,36 @@ class AuthRepository {
     } on FirebaseAuthException catch (e) {
       String errorMessage = _getErrorMessage(e);
       showErrorDialog(context, 'Registration Failed', errorMessage);
+    } catch (e) {
+      showErrorDialog(context, 'Error',
+          'An unknown error occurred. Please try again later.');
+    }
+  }
+
+  // Get the email of the currently logged-in user
+  String? getCurrentUserEmail() {
+    return _auth.currentUser?.email;
+  }
+
+  // Change password via sending reset link
+  Future<void> changePasswordViaEmail(BuildContext context) async {
+    try {
+      User? user = _auth.currentUser;
+
+      if (user != null && user.email != null) {
+        await _auth.sendPasswordResetEmail(email: user.email!);
+
+        _showSuccessDialog(
+          context,
+          'Password Reset Email Sent',
+          'A password reset email has been sent to ${user.email}. Please check your inbox.',
+        );
+      } else {
+        showErrorDialog(context, 'Error', 'No logged-in user found.');
+      }
+    } on FirebaseAuthException catch (e) {
+      String errorMessage = _getErrorMessage(e);
+      showErrorDialog(context, 'Error', errorMessage);
     } catch (e) {
       showErrorDialog(context, 'Error',
           'An unknown error occurred. Please try again later.');

@@ -18,3 +18,7 @@ class ErrorScreenImage {
 class AddWordImage {
   static const String logo = "assets/svg/book.svg";
 }
+
+class ChangePasswordImage {
+  static const String logo = "assets/svg/change_password.svg";
+}

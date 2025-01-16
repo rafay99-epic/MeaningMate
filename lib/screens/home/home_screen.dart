@@ -59,7 +59,7 @@ class _HomePageState extends State<Home> {
             gap: 10,
             tabs: [
               GButton(
-                icon: Icons.add,
+                icon: Icons.book,
                 text: 'Grammar',
                 iconColor: colorScheme.primary,
               ),

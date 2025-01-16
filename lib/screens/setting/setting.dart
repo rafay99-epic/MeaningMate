@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meaning_mate/repositories/auth_repository.dart';
+import 'package:meaning_mate/screens/auth/change_password.dart';
 import 'package:meaning_mate/screens/auth/login_screen.dart';
 import 'package:meaning_mate/utils/sizes.dart';
 import 'package:page_transition/page_transition.dart';
@@ -12,7 +13,6 @@ class SettingScreens extends StatelessWidget {
     AuthRepository authRepository = AuthRepository();
     final primaryColor = Theme.of(context).colorScheme.primary;
     final errorColor = Theme.of(context).colorScheme.error;
-
     DeviceCategory deviceCategory = DeviceType.getDeviceCategory(context);
 
     double fontSize = deviceCategory == DeviceCategory.smallPhone
@@ -44,6 +44,13 @@ class SettingScreens extends StatelessWidget {
               icon: Icons.lock,
               onPressed: () {
                 // Navigate to change password page
+
+                Navigator.of(context).push(
+                  PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: const ChangePasswordScreen(),
+                  ),
+                );
               },
             ),
             _buildSettingItem(
@@ -91,7 +98,7 @@ class SettingScreens extends StatelessWidget {
               onPressed: () {
                 // Navigate to delete account page
               },
-              iconColor: errorColor, // Set icon color to error color
+              iconColor: errorColor,
             ),
           ],
         ),
