@@ -107,6 +107,20 @@ class AuthRepository {
     }
   }
 
+  Future<String?> getCurrentUserEmail() async {
+    try {
+      User? user = _auth.currentUser;
+
+      if (user != null) {
+        return user.email;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // Register functionality
   Future<void> register(
     BuildContext context,

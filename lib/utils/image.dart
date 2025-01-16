@@ -14,3 +14,7 @@ class RegisterScreenImage {
 class ErrorScreenImage {
   static const String logo = "assets/svg/errorHandelling.svg";
 }
+
+class AddWordImage {
+  static const String logo = "assets/svg/book.svg";
+}

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:meaning_mate/screens/words/add_word_screen.dart';
 import 'package:meaning_mate/screens/quiz/quiz.dart';
 import 'package:meaning_mate/screens/search/search_screen.dart';
 import 'package:meaning_mate/screens/setting/setting.dart';
+import 'package:meaning_mate/screens/words/word_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,7 +16,7 @@ class _HomePageState extends State<Home> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const AddWordsPage(),
+    const WordScreen(),
     const QuizScreen(),
     const SearchScreen(),
     const SettingScreens(),
@@ -60,7 +60,7 @@ class _HomePageState extends State<Home> {
             tabs: [
               GButton(
                 icon: Icons.add,
-                text: 'Add Word',
+                text: 'Grammar',
                 iconColor: colorScheme.primary,
               ),
               GButton(

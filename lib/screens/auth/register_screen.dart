@@ -84,10 +84,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               CustomTextField(
                 hintText: "Email",
                 icon: Icons.email,
-                controller: fullNameController,
+                controller: emailController,
                 isPassword: false,
               ),
 
+              SizedBox(height: spacing),
               // Password TextField
               CustomTextField(
                 hintText: "Password",
@@ -128,11 +129,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // Handle registration
                   authRepository.register(
                     context,
-                    fullNameController.text,
                     emailController.text,
+                    fullNameController.text,
                     passwordController.text,
                     phoneController.text,
                   );
+
+                  // Clear all text fields
+                  fullNameController.clear();
+                  emailController.clear();
+                  passwordController.clear();
+                  retypePasswordController.clear();
+                  phoneController.clear();
+
+                  SnackBar snackBar = const SnackBar(
+                    behavior: SnackBarBehavior.floating,
+                    content: Text(
+                      "Registration Successful",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                    backgroundColor: Colors.green,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
