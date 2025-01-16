@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meaning_mate/screens/words/word_add.dart';
+import 'package:meaning_mate/screens/words/word_display.dart';
 
 class WordScreen extends StatefulWidget {
   const WordScreen({super.key});
@@ -22,9 +23,7 @@ class _WordScreenState extends State<WordScreen> {
         backgroundColor: primaryColor,
         automaticallyImplyLeading: false,
       ),
-      body: const Center(
-        child: Text('Word Screen'),
-      ),
+      body: const WordListScreen(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Navigate to add word screen
