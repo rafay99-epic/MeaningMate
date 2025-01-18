@@ -20,11 +20,13 @@ class _AddWordScreenState extends State<AddWordScreen> {
   final TextEditingController _sentenceController = TextEditingController();
   final TextEditingController _synonymController = TextEditingController();
   final TextEditingController _antonymController = TextEditingController();
+  final TextEditingController _tensesController = TextEditingController();
 
   List<String> meanings = [];
   List<String> sentences = [];
   List<String> synonyms = [];
   List<String> antonyms = [];
+  List<String> tenses = [];
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   final WordRepository wordRepo = WordRepository();
@@ -68,6 +70,7 @@ class _AddWordScreenState extends State<AddWordScreen> {
       sentences: sentences,
       synonyms: synonyms,
       antonyms: antonyms,
+      tenses: tenses,
     );
 
     try {
@@ -89,10 +92,12 @@ class _AddWordScreenState extends State<AddWordScreen> {
     _sentenceController.clear();
     _synonymController.clear();
     _antonymController.clear();
+    _tensesController.clear();
     meanings.clear();
     sentences.clear();
     synonyms.clear();
     antonyms.clear();
+    tenses.clear();
     setState(() {});
   }
 
@@ -229,6 +234,13 @@ class _AddWordScreenState extends State<AddWordScreen> {
                     items: antonyms,
                     controller: _antonymController,
                     icon: Icons.merge_type,
+                  ),
+                  SizedBox(height: spacing),
+                  _buildListWithInput(
+                    label: 'Tenses',
+                    items: tenses,
+                    controller: _tensesController,
+                    icon: Icons.settings_input_component_sharp,
                   ),
                   SizedBox(height: spacing),
                   SizedBox(

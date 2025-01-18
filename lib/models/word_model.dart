@@ -4,6 +4,7 @@ class Word {
   List<String> sentences;
   List<String> synonyms;
   List<String> antonyms;
+  List<String> tenses;
 
   Word({
     required this.word,
@@ -11,6 +12,7 @@ class Word {
     required this.sentences,
     required this.synonyms,
     required this.antonyms,
+    required this.tenses,
   });
 
   Map<String, dynamic> toMap() {
@@ -20,6 +22,7 @@ class Word {
       'sentences': sentences,
       'synonyms': synonyms,
       'antonyms': antonyms,
+      'tenses': tenses,
     };
   }
 
@@ -30,6 +33,7 @@ class Word {
       sentences: List<String>.from(map['sentences'] ?? []),
       synonyms: List<String>.from(map['synonyms'] ?? []),
       antonyms: List<String>.from(map['antonyms'] ?? []),
+      tenses: List<String>.from(map['tenses'] ?? []),
     );
   }
 }
