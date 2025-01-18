@@ -1,6 +1,6 @@
 class Word {
   String word;
-  String meaning;
+  List<String> meaning;
   List<String> sentences;
   List<String> synonyms;
   List<String> antonyms;
@@ -16,7 +16,7 @@ class Word {
   Map<String, dynamic> toMap() {
     return {
       'word': word,
-      'meaning': meaning,
+      'meanings': meaning,
       'sentences': sentences,
       'synonyms': synonyms,
       'antonyms': antonyms,
@@ -26,7 +26,7 @@ class Word {
   factory Word.fromMap(Map<String, dynamic> map) {
     return Word(
       word: map['word'] ?? '',
-      meaning: map['meaning'] ?? '',
+      meaning: List<String>.from(map['meanings'] ?? []),
       sentences: List<String>.from(map['sentences'] ?? []),
       synonyms: List<String>.from(map['synonyms'] ?? []),
       antonyms: List<String>.from(map['antonyms'] ?? []),

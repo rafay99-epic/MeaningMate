@@ -21,6 +21,7 @@ class _AddWordScreenState extends State<AddWordScreen> {
   final TextEditingController _synonymController = TextEditingController();
   final TextEditingController _antonymController = TextEditingController();
 
+  List<String> meanings = [];
   List<String> sentences = [];
   List<String> synonyms = [];
   List<String> antonyms = [];
@@ -46,9 +47,10 @@ class _AddWordScreenState extends State<AddWordScreen> {
   }
 
   Future<void> _addWord() async {
-    if (_wordController.text.isEmpty || _meaningController.text.isEmpty) {
+    if (_wordController.text.isEmpty || meanings.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Word and meaning cannot be empty')),
+        const SnackBar(
+            content: Text('Word and at least one meaning are required')),
       );
       return;
     }
@@ -62,7 +64,7 @@ class _AddWordScreenState extends State<AddWordScreen> {
 
     final word = Word(
       word: _wordController.text,
-      meaning: _meaningController.text,
+      meaning: meanings,
       sentences: sentences,
       synonyms: synonyms,
       antonyms: antonyms,
@@ -87,6 +89,7 @@ class _AddWordScreenState extends State<AddWordScreen> {
     _sentenceController.clear();
     _synonymController.clear();
     _antonymController.clear();
+    meanings.clear();
     sentences.clear();
     synonyms.clear();
     antonyms.clear();
@@ -157,7 +160,6 @@ class _AddWordScreenState extends State<AddWordScreen> {
       horizontalPadding = 8.0;
       spacing = 20;
       logoWidth = 150;
-
       buttonWidth = MediaQuery.of(context).size.width * 0.8;
     } else if (deviceCategory == DeviceCategory.largePhone) {
       horizontalPadding = 16.0;
@@ -201,11 +203,11 @@ class _AddWordScreenState extends State<AddWordScreen> {
                     isPassword: false,
                   ),
                   SizedBox(height: spacing),
-                  CustomTextField(
-                    hintText: 'Meaning',
-                    icon: Icons.description,
+                  _buildListWithInput(
+                    label: 'Meaning',
+                    items: meanings,
                     controller: _meaningController,
-                    isPassword: false,
+                    icon: Icons.description,
                   ),
                   SizedBox(height: spacing),
                   _buildListWithInput(

@@ -1,25 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:meaning_mate/models/word_model.dart';
-import 'package:meaning_mate/widgets/word_card.dart';
 
 class WordDetailScreen extends StatelessWidget {
   final Word word;
 
   const WordDetailScreen({super.key, required this.word});
 
+  Widget buildSection({
+    required String title,
+    required String content,
+    required IconData icon,
+    required Color color,
+    required ThemeData theme,
+    bool multiline = false,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+            color: theme.shadowColor.withOpacity(0.1),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment:
+            multiline ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+        children: [
+          Icon(icon, color: color, size: 28),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  content,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    height: multiline ? 1.5 : 1.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: theme.colorScheme.primary,
         elevation: 0,
         title: Text(
           word.word,
-          style: textTheme.headlineSmall?.copyWith(color: Colors.white),
+          style: theme.textTheme.headlineSmall?.copyWith(color: Colors.white),
         ),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -31,13 +83,16 @@ class WordDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 120),
-              buildSection(
-                title: 'Meaning',
-                content: word.meaning,
-                color: Colors.black,
-                icon: Icons.book,
-                theme: theme,
-              ),
+              if (word.meaning.isNotEmpty)
+                buildSection(
+                  title: 'Meanings',
+                  content:
+                      word.meaning.map((meaning) => '- $meaning').join('\n'),
+                  color: Colors.black,
+                  icon: Icons.book,
+                  theme: theme,
+                  multiline: true,
+                ),
               const SizedBox(height: 16),
               if (word.synonyms.isNotEmpty)
                 buildSection(

@@ -16,6 +16,11 @@ class SearchResultsList extends StatelessWidget {
       itemCount: results.length,
       itemBuilder: (context, index) {
         final word = results[index];
+
+        final meaningText = word.meaning.isNotEmpty
+            ? word.meaning.map((meaning) => '- $meaning').join('\n')
+            : 'No meaning available';
+
         return Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -29,7 +34,7 @@ class SearchResultsList extends StatelessWidget {
               style: theme.textTheme.titleMedium,
             ),
             subtitle: Text(
-              word.meaning,
+              meaningText,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.bodySmall?.copyWith(
