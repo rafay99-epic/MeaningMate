@@ -4,8 +4,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:meaning_mate/models/word_model.dart';
 import 'package:meaning_mate/repositories/word_repository.dart';
 import 'package:meaning_mate/utils/image.dart';
+import 'package:meaning_mate/utils/layout_properties.dart';
 import 'package:meaning_mate/utils/sizes.dart';
 import 'package:meaning_mate/widgets/text_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
+import 'dart:convert';
 
 class AddWordScreen extends StatefulWidget {
   const AddWordScreen({super.key});
@@ -30,13 +34,24 @@ class _AddWordScreenState extends State<AddWordScreen> {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   final WordRepository wordRepo = WordRepository();
-
   String? userEmail;
+
+  late SharedPreferences prefs;
+
+  final StreamController<void> _controllerStream =
+      StreamController<void>.broadcast();
 
   @override
   void initState() {
     super.initState();
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    prefs = await SharedPreferences.getInstance();
     _getCurrentUserEmail();
+    _loadSavedData();
+    _listenToControllerChanges();
   }
 
   Future<void> _getCurrentUserEmail() async {
@@ -46,6 +61,46 @@ class _AddWordScreenState extends State<AddWordScreen> {
         userEmail = user.email;
       });
     }
+  }
+
+  Future<void> _saveDataToPreferences() async {
+    final data = {
+      'word': _wordController.text,
+      'meanings': meanings,
+      'sentences': sentences,
+      'synonyms': synonyms,
+      'antonyms': antonyms,
+      'tenses': tenses,
+    };
+    final jsonString = jsonEncode(data);
+    await prefs.setString('word_data', jsonString);
+  }
+
+  void _loadSavedData() {
+    final savedData = prefs.getString('word_data');
+    if (savedData != null) {
+      final Map<String, dynamic> data = jsonDecode(savedData);
+      _wordController.text = data['word'] ?? '';
+      meanings = List<String>.from(data['meanings'] ?? []);
+      sentences = List<String>.from(data['sentences'] ?? []);
+      synonyms = List<String>.from(data['synonyms'] ?? []);
+      antonyms = List<String>.from(data['antonyms'] ?? []);
+      tenses = List<String>.from(data['tenses'] ?? []);
+      setState(() {});
+    }
+  }
+
+  void _listenToControllerChanges() {
+    _controllerStream.stream.listen((_) {
+      _saveDataToPreferences();
+    });
+
+    _wordController.addListener(() => _controllerStream.add(null));
+    _meaningController.addListener(() => _controllerStream.add(null));
+    _sentenceController.addListener(() => _controllerStream.add(null));
+    _synonymController.addListener(() => _controllerStream.add(null));
+    _antonymController.addListener(() => _controllerStream.add(null));
+    _tensesController.addListener(() => _controllerStream.add(null));
   }
 
   Future<void> _addWord() async {
@@ -155,112 +210,102 @@ class _AddWordScreenState extends State<AddWordScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceCategory = DeviceType.getDeviceCategory(context);
+    final layout = LayoutProperties.getProperties(deviceCategory, context);
 
-    double horizontalPadding;
-    double buttonWidth;
-    double spacing;
-    double logoWidth;
-
-    if (deviceCategory == DeviceCategory.smallPhone) {
-      horizontalPadding = 8.0;
-      spacing = 20;
-      logoWidth = 150;
-      buttonWidth = MediaQuery.of(context).size.width * 0.8;
-    } else if (deviceCategory == DeviceCategory.largePhone) {
-      horizontalPadding = 16.0;
-      spacing = 30;
-      logoWidth = 200;
-      buttonWidth = MediaQuery.of(context).size.width * 0.7;
-    } else {
-      horizontalPadding = 32.0;
-      spacing = 50;
-      logoWidth = 300;
-      buttonWidth = MediaQuery.of(context).size.width * 0.6;
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Add Word',
-          style: TextStyle(color: Theme.of(context).colorScheme.surface),
+    return PopScope<Object?>(
+      canPop: true,
+      onPopInvokedWithResult: (bool didPop, Object? result) async {
+        if (!didPop) {
+          await _saveDataToPreferences();
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Add Word',
+            style: TextStyle(color: Theme.of(context).colorScheme.surface),
+          ),
+          leading: BackButton(
+            color: Theme.of(context).colorScheme.surface,
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
-        leading: BackButton(
-          color: Theme.of(context).colorScheme.surface,
-        ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-      ),
-      body: userEmail == null
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-              child: Column(
-                children: [
-                  SizedBox(height: spacing),
-                  SvgPicture.asset(
-                    AddWordImage.logo,
-                    width: logoWidth,
-                  ),
-                  SizedBox(height: spacing),
-                  CustomTextField(
-                    hintText: 'Word',
-                    icon: Icons.text_fields,
-                    controller: _wordController,
-                    isPassword: false,
-                  ),
-                  SizedBox(height: spacing),
-                  _buildListWithInput(
-                    label: 'Meaning',
-                    items: meanings,
-                    controller: _meaningController,
-                    icon: Icons.description,
-                  ),
-                  SizedBox(height: spacing),
-                  _buildListWithInput(
-                    label: 'Sentence',
-                    items: sentences,
-                    controller: _sentenceController,
-                    icon: Icons.notes,
-                  ),
-                  SizedBox(height: spacing),
-                  _buildListWithInput(
-                    label: 'Synonym',
-                    items: synonyms,
-                    controller: _synonymController,
-                    icon: Icons.synagogue,
-                  ),
-                  SizedBox(height: spacing),
-                  _buildListWithInput(
-                    label: 'Antonym',
-                    items: antonyms,
-                    controller: _antonymController,
-                    icon: Icons.merge_type,
-                  ),
-                  SizedBox(height: spacing),
-                  _buildListWithInput(
-                    label: 'Tenses',
-                    items: tenses,
-                    controller: _tensesController,
-                    icon: Icons.settings_input_component_sharp,
-                  ),
-                  SizedBox(height: spacing),
-                  SizedBox(
-                    width: buttonWidth,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                      ),
-                      onPressed: _addWord,
-                      child: Text(
-                        'Save Word',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.surface),
+        body: userEmail == null
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                padding:
+                    EdgeInsets.symmetric(horizontal: layout.horizontalPadding),
+                child: Column(
+                  children: [
+                    SizedBox(height: layout.spacing),
+                    SvgPicture.asset(
+                      AddWordImage.logo,
+                      width: layout.logoWidth,
+                    ),
+                    SizedBox(height: layout.spacing),
+                    CustomTextField(
+                      hintText: 'Word',
+                      icon: Icons.text_fields,
+                      controller: _wordController,
+                      isPassword: false,
+                    ),
+                    SizedBox(height: layout.spacing),
+                    _buildListWithInput(
+                      label: 'Meaning',
+                      items: meanings,
+                      controller: _meaningController,
+                      icon: Icons.description,
+                    ),
+                    SizedBox(height: layout.spacing),
+                    _buildListWithInput(
+                      label: 'Sentence',
+                      items: sentences,
+                      controller: _sentenceController,
+                      icon: Icons.notes,
+                    ),
+                    SizedBox(height: layout.spacing),
+                    _buildListWithInput(
+                      label: 'Synonym',
+                      items: synonyms,
+                      controller: _synonymController,
+                      icon: Icons.synagogue,
+                    ),
+                    SizedBox(height: layout.spacing),
+                    _buildListWithInput(
+                      label: 'Antonym',
+                      items: antonyms,
+                      controller: _antonymController,
+                      icon: Icons.merge_type,
+                    ),
+                    SizedBox(height: layout.spacing),
+                    _buildListWithInput(
+                      label: 'Tenses',
+                      items: tenses,
+                      controller: _tensesController,
+                      icon: Icons.settings_input_component_sharp,
+                    ),
+                    SizedBox(height: layout.spacing),
+                    SizedBox(
+                      width: layout.buttonWidth,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                        ),
+                        onPressed: _addWord,
+                        child: Text(
+                          'Save Word',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.surface),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: spacing),
-                ],
+                    SizedBox(height: layout.spacing),
+                  ],
+                ),
               ),
-            ),
+      ),
     );
   }
 }
