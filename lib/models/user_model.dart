@@ -12,7 +12,6 @@ class UserModel {
     required this.phoneNumber,
   });
 
-  // Convert UserModel to a map (for easy storage or network communication)
   Map<String, dynamic> toMap() {
     return {
       'fullName': fullName,
@@ -22,7 +21,6 @@ class UserModel {
     };
   }
 
-  // Convert a map to a UserModel (used for deserialization)
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       fullName: map['fullName'],
@@ -32,7 +30,6 @@ class UserModel {
     );
   }
 
-  // Optionally, to make the user data more readable
   @override
   String toString() {
     return 'UserModel(fullName: $fullName, email: $email, phoneNumber: $phoneNumber)';

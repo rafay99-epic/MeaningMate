@@ -16,7 +16,7 @@ class _WordScreenState extends State<WordScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Grammar',
+          'Vocabulary',
           style: TextStyle(
               fontSize: 20, color: Theme.of(context).colorScheme.surface),
         ),

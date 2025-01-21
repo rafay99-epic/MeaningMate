@@ -23,6 +23,7 @@ dependencies:
   line_icons: ^2.0.3
   cloud_firestore: ^5.6.1
   shared_preferences: ^2.3.5
+  fuzzy: ^0.5.1
 
 dev_dependencies:
   flutter_test:

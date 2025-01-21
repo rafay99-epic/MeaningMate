@@ -86,8 +86,11 @@ class _WordListScreenState extends State<WordListScreen> {
                 direction: DismissDirection.endToStart,
                 background: Container(
                   alignment: Alignment.centerRight,
-                  color: Colors.red,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: const Icon(
                     Icons.delete,
                     color: Colors.white,
@@ -126,9 +129,12 @@ class _WordListScreenState extends State<WordListScreen> {
                 },
                 child: Card(
                   margin: const EdgeInsets.symmetric(vertical: 8),
-                  shape: Border.all(
-                    color: theme.colorScheme.primary.withOpacity(0.6),
-                    width: 1.5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: BorderSide(
+                      color: theme.colorScheme.primary.withOpacity(0.6),
+                      width: 1.5,
+                    ),
                   ),
                   child: InkWell(
                     onTap: () {
