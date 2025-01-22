@@ -134,7 +134,6 @@ class AuthRepository {
       User? firebaseUser = userCredential.user;
 
       if (firebaseUser != null) {
-        // Save additional user info to Firestore using the UserModel
         await FirebaseFirestore.instance
             .collection('users')
             .doc(firebaseUser.uid)

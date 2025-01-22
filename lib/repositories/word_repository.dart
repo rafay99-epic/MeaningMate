@@ -47,28 +47,6 @@ class WordRepository {
     }
   }
 
-  Stream<List<Word>> searchWords(String query) {
-    final userEmail = _getCurrentUserEmail();
-    if (userEmail == null) {
-      throw Exception('No user is currently logged in.');
-    }
-
-    try {
-      final stream = firestore
-          .collection('users')
-          .doc(userEmail)
-          .collection('words')
-          .where('word', isGreaterThanOrEqualTo: query)
-          .where('word', isLessThanOrEqualTo: '$query\uf8ff')
-          .snapshots();
-
-      return stream.map((snapshot) =>
-          snapshot.docs.map((doc) => Word.fromMap(doc.data())).toList());
-    } catch (e) {
-      throw Exception('Error searching words: $e');
-    }
-  }
-
   Stream<List<Word>> getAllWordsStream() {
     final userEmail = _getCurrentUserEmail();
     if (userEmail == null) {

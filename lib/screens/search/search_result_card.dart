@@ -6,7 +6,8 @@ import 'package:page_transition/page_transition.dart';
 class SearchResultsList extends StatelessWidget {
   final List<Word> results;
 
-  const SearchResultsList({super.key, required this.results});
+  const SearchResultsList(
+      {super.key, required this.results, required Word word});
 
   @override
   Widget build(BuildContext context) {

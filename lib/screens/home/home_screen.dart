@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:meaning_mate/providers/search_provider.dart';
 import 'package:meaning_mate/screens/quiz/quiz.dart';
 import 'package:meaning_mate/screens/search/search_screen.dart';
 import 'package:meaning_mate/screens/setting/setting.dart';
 import 'package:meaning_mate/screens/words/word_screen.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,6 +15,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomePageState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    final searchProvider = Provider.of<SearchProvider>(context, listen: false);
+    searchProvider.fetchAllWords();
+  }
+
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [

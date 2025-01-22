@@ -1,11 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:meaning_mate/firebase_options.dart';
+import 'package:meaning_mate/providers/search_provider.dart';
+import 'package:meaning_mate/repositories/auth_repository.dart';
+import 'package:meaning_mate/repositories/word_repository.dart';
 import 'package:meaning_mate/screens/errorhandelling/error_handelling.dart';
 import 'package:meaning_mate/screens/home/home_screen.dart';
 import 'package:meaning_mate/screens/splash/splash_screen.dart';
 import 'package:meaning_mate/utils/colors.dart';
-import 'package:meaning_mate/repositories/auth_repository.dart';
+import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
   final bool isFirebaseInitialized;
@@ -29,10 +32,17 @@ class MyApp extends StatelessWidget {
       );
     }
 
-    return MaterialApp(
-      theme: basecolors,
-      home: isLoggedIn ? const Home() : const SplashScreen(),
-      debugShowCheckedModeBanner: false,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => SearchProvider(wordRepository: WordRepository()),
+        ),
+      ],
+      child: MaterialApp(
+        theme: basecolors,
+        home: isLoggedIn ? const Home() : const SplashScreen(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

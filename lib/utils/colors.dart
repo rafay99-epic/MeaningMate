@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData basecolors = ThemeData(
-  useMaterial3: true, // Enable Material 3
+  useMaterial3: true,
   colorScheme: const ColorScheme.light(
     primary: Color(0xFF6C63FF),
     secondary: Color(0xFF2196F3),
