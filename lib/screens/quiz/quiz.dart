@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meaning_mate/screens/comming_sson/comming_soon.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -17,7 +16,9 @@ class _QuizScreenState extends State<QuizScreen> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.surface,
       ),
-      body: const ComingSoonPage(),
+      body: const Center(
+        child: Text('Coming Soon'),
+      ),
     );
   }
 }
