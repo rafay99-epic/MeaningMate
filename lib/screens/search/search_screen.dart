@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meaning_mate/providers/search_provider.dart';
 import 'package:meaning_mate/screens/search/search_input_field.dart';
-import 'package:meaning_mate/widgets/result_search_card.dart';
+import 'package:meaning_mate/widgets/search/result_search_card.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
