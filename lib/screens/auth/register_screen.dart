@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meaning_mate/repositories/auth_repository.dart';
 import 'package:meaning_mate/screens/auth/login_screen.dart';
 import 'package:meaning_mate/utils/image.dart';
@@ -29,6 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     passwordController.dispose();
     retypePasswordController.dispose();
     phoneController.dispose();
+    emailController.dispose();
     super.dispose();
   }
 
@@ -39,22 +40,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
     double spacing;
     EdgeInsetsGeometry padding;
     double logoWidth;
+    double fontSize;
 
     switch (deviceCategory) {
       case DeviceCategory.smallPhone:
         spacing = 20;
         logoWidth = 150;
         padding = const EdgeInsets.symmetric(horizontal: 20);
+        fontSize = 18;
         break;
       case DeviceCategory.largePhone:
         spacing = 30;
         logoWidth = 200;
         padding = const EdgeInsets.symmetric(horizontal: 40);
+        fontSize = 20;
         break;
       case DeviceCategory.tablet:
         spacing = 50;
         logoWidth = 300;
         padding = const EdgeInsets.symmetric(horizontal: 80);
+        fontSize = 22;
         break;
     }
 
@@ -65,6 +70,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 50),
+              // App Introduction
+              Text(
+                " Meaning Mate",
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "Your ultimate app for learning and enhancing vocabulary.",
+                style:
+                    TextStyle(fontSize: fontSize - 2, color: Colors.grey[700]),
+                textAlign: TextAlign.center,
+              ),
+
+              SizedBox(height: spacing * 1.5),
+              // Logo
               SvgPicture.asset(
                 RegisterScreenImage.logo,
                 width: logoWidth,
@@ -80,7 +106,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
 
               SizedBox(height: spacing),
-
               CustomTextField(
                 hintText: "Email",
                 icon: Icons.email,
@@ -118,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: spacing),
               ElevatedButton(
                 onPressed: () {
-                  // Passweord and retype password should be same
+                  // Password and retype password should match
                   if (passwordController.text.trim() !=
                       retypePasswordController.text.trim()) {
                     authRepository.showErrorDialog(context, "Password Mismatch",
@@ -129,10 +154,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // Handle registration
                   authRepository.register(
                     context,
-                    emailController.text,
-                    fullNameController.text,
-                    passwordController.text,
-                    phoneController.text,
+                    emailController.text.trim(),
+                    fullNameController.text.trim(),
+                    passwordController.text.trim(),
+                    phoneController.text.trim(),
                   );
 
                   // Clear all text fields
@@ -158,6 +183,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
                   textStyle: const TextStyle(fontSize: 18),
+                  elevation: 5, // Add shadow elevation
+                  shadowColor: Colors.black
+                      .withOpacity(0.4), // Customizable shadow color
                 ),
                 child: const Text("Register"),
               ),

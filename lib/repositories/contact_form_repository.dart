@@ -21,14 +21,14 @@ class ContactService {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,
-          backgroundColor: Theme.of(context).colorScheme.secondary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           showCloseIcon: true,
           closeIconColor: Colors.red,
           duration: const Duration(seconds: 3),
           content: Text(
             'Thank you for the Feedback',
             style: GoogleFonts.roboto(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.surface,
             ),
           ),
         ),
@@ -39,7 +39,7 @@ class ContactService {
         builder: (context) => AlertDialog(
           title: Text(
             "Failed to send message: $e",
-            style: GoogleFonts.playfairDisplay(
+            style: GoogleFonts.roboto(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.primary,
             ),

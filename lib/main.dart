@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:meaning_mate/firebase_options.dart';
+import 'package:meaning_mate/providers/chatbot_provider.dart';
 import 'package:meaning_mate/providers/layout_provider.dart';
 import 'package:meaning_mate/providers/search_provider.dart';
 import 'package:meaning_mate/repositories/auth_repository.dart';
@@ -41,6 +42,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => LayoutProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ChatbotProvider(apiKey: ''),
         ),
       ],
       child: MaterialApp(

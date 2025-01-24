@@ -34,22 +34,26 @@ class _LoginScreenState extends State<LoginScreen> {
     double logoWidth;
     double spacing;
     EdgeInsetsGeometry padding;
+    double fontSize;
 
     switch (deviceCategory) {
       case DeviceCategory.smallPhone:
         logoWidth = 150;
         spacing = 20;
         padding = const EdgeInsets.symmetric(horizontal: 20);
+        fontSize = 18;
         break;
       case DeviceCategory.largePhone:
         logoWidth = 200;
         spacing = 30;
         padding = const EdgeInsets.symmetric(horizontal: 40);
+        fontSize = 20;
         break;
       case DeviceCategory.tablet:
         logoWidth = 300;
         spacing = 50;
         padding = const EdgeInsets.symmetric(horizontal: 80);
+        fontSize = 22;
         break;
     }
 
@@ -60,7 +64,26 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Local Image
+              // App Introduction
+              Text(
+                " Meaning Mate",
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "Your ultimate app for learning and enhancing vocabulary.",
+                style:
+                    TextStyle(fontSize: fontSize - 2, color: Colors.grey[700]),
+                textAlign: TextAlign.center,
+              ),
+
+              SizedBox(height: spacing * 1.5),
+              // Logo
               SvgPicture.asset(
                 LoginScreenImage.logo,
                 width: logoWidth,
