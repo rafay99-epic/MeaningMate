@@ -5,10 +5,30 @@ import 'package:meaning_mate/screens/auth/delete_account_screen.dart';
 import 'package:meaning_mate/screens/auth/login_screen.dart';
 import 'package:meaning_mate/screens/contact_form/contact_form.dart';
 import 'package:meaning_mate/utils/sizes.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:page_transition/page_transition.dart';
 
-class SettingScreens extends StatelessWidget {
+class SettingScreens extends StatefulWidget {
   const SettingScreens({super.key});
+
+  @override
+  State<SettingScreens> createState() => _SettingScreensState();
+}
+
+class _SettingScreensState extends State<SettingScreens> {
+  String appVersion = "Loading...";
+  Future<void> _getAppVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      appVersion = "${packageInfo.version} (${packageInfo.buildNumber})";
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getAppVersion();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +106,7 @@ class SettingScreens extends StatelessWidget {
               context,
               title: 'App Version',
               icon: Icons.info,
-              content: Text('1.0', style: TextStyle(fontSize: fontSize)),
+              content: Text(appVersion, style: TextStyle(fontSize: fontSize)),
               onPressed: () {},
             ),
             _buildSettingItem(

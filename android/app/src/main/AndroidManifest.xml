@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <application
-        android:label="meaning_mate"
+        android:label="Meaning Mate"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
