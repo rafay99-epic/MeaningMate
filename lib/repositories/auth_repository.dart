@@ -135,7 +135,7 @@ class AuthRepository {
 
       if (firebaseUser != null) {
         await FirebaseFirestore.instance
-            .collection('users')
+            .collection('users-database')
             .doc(firebaseUser.uid)
             .set({
           'fullName': user.fullName,

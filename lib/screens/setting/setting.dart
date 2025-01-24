@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:meaning_mate/repositories/auth_repository.dart';
 import 'package:meaning_mate/screens/auth/change_password.dart';
+import 'package:meaning_mate/screens/auth/delete_account_screen.dart';
 import 'package:meaning_mate/screens/auth/login_screen.dart';
+import 'package:meaning_mate/screens/contact_form/contact_form.dart';
 import 'package:meaning_mate/utils/sizes.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -10,7 +12,7 @@ class SettingScreens extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthRepository authRepository = AuthRepository();
+    final AuthRepository authRepository = AuthRepository();
     final primaryColor = Theme.of(context).colorScheme.primary;
     final errorColor = Theme.of(context).colorScheme.error;
     DeviceCategory deviceCategory = DeviceType.getDeviceCategory(context);
@@ -87,6 +89,21 @@ class SettingScreens extends StatelessWidget {
               content: Text('1.0', style: TextStyle(fontSize: fontSize)),
               onPressed: () {},
             ),
+            _buildSettingItem(
+              context,
+              title: 'Contact Form',
+              icon: Icons.lock,
+              onPressed: () {
+                // Navigate to change password page
+
+                Navigator.of(context).push(
+                  PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: ContactPage(),
+                  ),
+                );
+              },
+            ),
             const Divider(),
 
             // Danger Section
@@ -96,7 +113,13 @@ class SettingScreens extends StatelessWidget {
               title: 'Delete Account',
               icon: Icons.delete,
               onPressed: () {
-                // Navigate to delete account page
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: const DeleteProfile(),
+                  ),
+                );
               },
               iconColor: errorColor,
             ),

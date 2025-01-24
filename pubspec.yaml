@@ -25,6 +25,7 @@ dependencies:
   shared_preferences: ^2.3.5
   fuzzy: ^0.5.1
   shorebird_code_push: ^2.0.0
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

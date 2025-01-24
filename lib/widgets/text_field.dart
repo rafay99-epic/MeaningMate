@@ -6,6 +6,7 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final bool isPassword;
   final bool isNumber;
+  final int numLines;
 
   const CustomTextField({
     super.key,
@@ -14,6 +15,7 @@ class CustomTextField extends StatefulWidget {
     required this.controller,
     required this.isPassword,
     this.isNumber = false,
+    this.numLines = 1, // Default to 1 line
   });
 
   @override
@@ -31,8 +33,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: TextField(
         controller: widget.controller,
         obscureText: widget.isPassword ? _isObscured : false,
-        keyboardType:
-            widget.isNumber ? TextInputType.number : TextInputType.text,
+        keyboardType: widget.isNumber
+            ? TextInputType.number
+            : widget.numLines > 1
+                ? TextInputType.multiline
+                : TextInputType.text,
+        maxLines: widget.isPassword
+            ? 1 // Password fields should not allow multiline
+            : widget.numLines,
         decoration: InputDecoration(
           hintText: widget.hintText,
           hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),

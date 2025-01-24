@@ -22,3 +22,11 @@ class AddWordImage {
 class ChangePasswordImage {
   static const String logo = "assets/svg/change_password.svg";
 }
+
+class DeleteScreenImage {
+  static const String logo = "assets/svg/delete_word.svg";
+}
+
+class ContactFormImage {
+  static const String logo = "assets/svg/contact_form.svg";
+}
