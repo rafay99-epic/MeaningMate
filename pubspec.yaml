@@ -29,6 +29,7 @@ dependencies:
   google_generative_ai: ^0.4.6
   flutter_dotenv: ^5.2.1
   shorebird_code_push: ^2.0.0
+  flutter_markdown: ^0.7.5
 
 dev_dependencies:
   flutter_test:
@@ -41,8 +42,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/svg/
-    - assets/images/
-    - assets/fonts/
     - assets/icon/
     - shorebird.yaml
 

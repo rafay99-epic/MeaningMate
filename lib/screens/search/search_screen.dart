@@ -53,6 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
         title: const Text('Search'),
         backgroundColor: theme.colorScheme.primary,
         foregroundColor: theme.colorScheme.onPrimary,
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: [

@@ -64,17 +64,17 @@ class _HomePageState extends State<Home> {
             gap: 5,
             tabs: [
               GButton(
-                icon: Icons.book,
+                icon: LineIcons.book,
                 text: 'Grammar',
                 iconColor: colorScheme.primary,
               ),
               GButton(
-                icon: Icons.quiz,
+                icon: LineIcons.question,
                 text: 'Quiz',
                 iconColor: colorScheme.primary,
               ),
               GButton(
-                icon: Icons.search,
+                icon: LineIcons.search,
                 text: 'Search',
                 iconColor: colorScheme.primary,
               ),
@@ -84,7 +84,7 @@ class _HomePageState extends State<Home> {
                 iconColor: colorScheme.primary,
               ),
               GButton(
-                icon: Icons.settings,
+                icon: LineIcons.cog,
                 text: 'Settings',
                 iconColor: colorScheme.primary,
               ),
