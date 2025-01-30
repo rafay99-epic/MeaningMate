@@ -30,3 +30,7 @@ class DeleteScreenImage {
 class ContactFormImage {
   static const String logo = "assets/svg/contact_form.svg";
 }
+
+class QuizScreenImage {
+  static const String logo = "assets/svg/quiz.svg";
+}

@@ -30,6 +30,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   shorebird_code_push: ^2.0.0
   flutter_markdown: ^0.7.5
+  word_generator: ^0.4.5
 
 dev_dependencies:
   flutter_test:
