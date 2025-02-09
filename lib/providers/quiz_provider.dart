@@ -123,10 +123,9 @@ class QuizProvider extends ChangeNotifier {
           throw Exception("Failed to generate fake options.");
         }
       } catch (e) {
-        print("Error generating fake options: $e");
+        throw Exception("Failed to generate fake options.");
       }
     } catch (e) {
-      print("Error in _generateAnswerOptions: $e");
       _correctAnswer = ""; // Reset answer to prevent incorrect data usage
       _answerOptions = [];
     }

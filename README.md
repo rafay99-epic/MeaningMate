@@ -68,6 +68,12 @@ flutter run
 
 This will launch the application for Android and iOS devices.
 
+## APK Download
+
+Download the latest APK from the following link:
+
+[Download Meaning Mate APK](/apk/Meaning_Mate_01.apk)
+
 ## Blog
 
 Want to know how this app was developed? Check out the detailed blog post on our website: [Meaning Mate Development Blog](https://www.rafay99.com)
