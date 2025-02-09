@@ -26,7 +26,7 @@ class _WordListScreenState extends State<WordListScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to delete word: $e'),
+          content: const Text('Failed to delete word. Please try again.'),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );

@@ -130,11 +130,12 @@ class DeleteProfile extends StatelessWidget {
                     },
                   );
                 },
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.warning, color: Colors.white, semanticLabel: 'Warning'),
-                    const SizedBox(width: 10),
+                    Icon(Icons.warning,
+                        color: Colors.white, semanticLabel: 'Warning'),
+                    SizedBox(width: 10),
                     Text(
                       'Delete Account',
                       style: TextStyle(fontSize: 20),

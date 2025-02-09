@@ -42,6 +42,11 @@ class AuthRepository {
         return 'This email is already registered. Please try another.';
       case 'weak-password':
         return 'The password is too weak. Please choose a stronger password.';
+      case 'operation-not-allowed':
+        return 'This operation is not allowed. Please contact support.';
+      case 'too-many-requests':
+        return 'Too many attempts. Please try again later.';
+      case 'network-request-failed':
       default:
         return 'An unknown error occurred. Please try again later.';
     }

@@ -29,19 +29,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   }
 
   void _sendPasswordResetEmail() async {
-    setState(() => _isLoading = true);
-    try {
-      await _authRepository.changePasswordViaEmail(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password reset email sent')),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
-    } finally {
-      setState(() => _isLoading = false);
-    }
+    await _authRepository.changePasswordViaEmail(context);
   }
 
   @override

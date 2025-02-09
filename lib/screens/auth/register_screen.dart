@@ -142,8 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               SizedBox(height: spacing),
               ElevatedButton(
-                onPressed: () async {
-                  // Validate all fields
+                onPressed: () {
                   if (fullNameController.text.trim().isEmpty ||
                       emailController.text.trim().isEmpty ||
                       passwordController.text.trim().isEmpty ||
@@ -168,7 +167,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }
 
                   try {
-                    await authRepository.register(
+                    authRepository.register(
                       context,
                       emailController.text.trim(),
                       fullNameController.text.trim(),
@@ -216,7 +215,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     }
                   }
                 },
-              )
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
                   textStyle: const TextStyle(fontSize: 18),
