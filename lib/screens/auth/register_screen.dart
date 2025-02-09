@@ -142,7 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               SizedBox(height: spacing),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (fullNameController.text.trim().isEmpty ||
                       emailController.text.trim().isEmpty ||
                       passwordController.text.trim().isEmpty ||
