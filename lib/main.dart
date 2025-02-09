@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:meaning_mate/firebase_options.dart';
 import 'package:meaning_mate/providers/chatbot_provider.dart';
+import 'package:meaning_mate/repositories/chatbot_repository.dart';
 import 'package:meaning_mate/providers/layout_provider.dart';
 import 'package:meaning_mate/providers/quiz_provider.dart';
 import 'package:meaning_mate/providers/search_provider.dart';
@@ -48,7 +49,8 @@ class MyApp extends StatelessWidget {
           create: (_) => ChatbotProvider(apiKey: ''),
         ),
         ChangeNotifierProvider(
-          create: (_) => QuizProvider(),
+          create: (_) =>
+              QuizProvider(chatbotRepository: ChatbotRepository(apiKey: '')),
         ),
       ],
       child: MaterialApp(
