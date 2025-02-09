@@ -4,16 +4,6 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_options.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -50,19 +40,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDqac4tkStwOeXkJ7LoZvCSXZzyeaZGq4c',
-    appId: '1:592007239663:android:c60f2561aa29e5f8ef481a',
-    messagingSenderId: '592007239663',
-    projectId: 'meaningmate',
-    storageBucket: 'meaningmate.firebasestorage.app',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBki1h0DZMSjWLC6dGrHmPyljAIgTTW77c',
-    appId: '1:592007239663:ios:b0298d78fac850e9ef481a',
-    messagingSenderId: '592007239663',
-    projectId: 'meaningmate',
-    storageBucket: 'meaningmate.firebasestorage.app',
-    iosBundleId: 'com.meaningmate.app',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
+    iosBundleId: '',
   );
 }

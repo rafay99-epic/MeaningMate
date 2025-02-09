@@ -25,6 +25,7 @@ class _QuizScreenState extends State<QuizScreen> {
         title: const Text('Quiz'),
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
+        automaticallyImplyLeading: false,
         foregroundColor: Theme.of(context).colorScheme.surface,
       ),
       body: Center(
