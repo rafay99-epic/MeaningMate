@@ -46,11 +46,13 @@ class MyApp extends StatelessWidget {
           create: (_) => LayoutProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => ChatbotProvider(apiKey: ''),
+          create: (_) => ChatbotProvider(
+              apiKey: 'AIzaSyAlcHuNeDpSzw18BXpwvC-ff7e_VppkpjM'),
         ),
         ChangeNotifierProvider(
-          create: (_) =>
-              QuizProvider(chatbotRepository: ChatbotRepository(apiKey: '')),
+          create: (_) => QuizProvider(
+              chatbotRepository: ChatbotRepository(
+                  apiKey: 'AIzaSyAlcHuNeDpSzw18BXpwvC-ff7e_VppkpjM')),
         ),
       ],
       child: MaterialApp(

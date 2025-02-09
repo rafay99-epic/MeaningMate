@@ -1,4 +1,3 @@
-// APi Version
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:meaning_mate/models/word_model.dart';
@@ -17,6 +16,7 @@ class QuizProvider extends ChangeNotifier {
   bool? _isCorrect;
   List<String> _answerOptions = [];
   String _correctAnswer = "";
+  bool _isLoading = false;
   final ChatbotRepository _chatbotRepository;
 
   QuizProvider({required ChatbotRepository chatbotRepository})
@@ -37,14 +37,17 @@ class QuizProvider extends ChangeNotifier {
   String? get selectedAnswer => _selectedAnswer;
   List<String> get answerOptions => _answerOptions;
   Widget get currentQuiz => _quizzes[_selectedTagIndex];
+  bool get isLoading => _isLoading;
 
   void updateQuiz(int index, BuildContext context) {
     _selectedTagIndex = index;
     _generateNewQuiz(context);
-    notifyListeners();
   }
 
-  void _generateNewQuiz(BuildContext context) async {
+  Future<void> _generateNewQuiz(BuildContext context) async {
+    _isLoading = true;
+    notifyListeners();
+
     final words =
         Provider.of<SearchProvider>(context, listen: false).filteredWords;
     if (words.isNotEmpty) {
@@ -54,8 +57,10 @@ class QuizProvider extends ChangeNotifier {
       _currentWord = null;
       _answerOptions = [];
     }
+
     _isCorrect = null;
     _selectedAnswer = null;
+    _isLoading = false;
     notifyListeners();
   }
 
@@ -63,7 +68,6 @@ class QuizProvider extends ChangeNotifier {
     _answerOptions = [];
     if (_currentWord == null) return;
 
-    // Determine correct answer
     switch (_selectedTagIndex) {
       case 0: // Meaning Quiz
         _correctAnswer = _cleanAnswer(_currentWord!.meaning.toString());
@@ -73,7 +77,7 @@ class QuizProvider extends ChangeNotifier {
             ? _currentWord!.synonyms.first
             : "");
         break;
-      case 2: // Tense Quiz
+      case 2:
         _correctAnswer = _cleanAnswer(
             _currentWord!.tenses.isNotEmpty ? _currentWord!.tenses.first : "");
         break;
@@ -89,37 +93,28 @@ class QuizProvider extends ChangeNotifier {
     if (_correctAnswer.isEmpty) return;
     _answerOptions.add(_correctAnswer);
 
-    // Generate incorrect options dynamically
     final prompt = _getPromptForWrongAnswers();
     final fakeResponses = await _chatbotRepository.generateResponse(prompt);
 
-    // Process API response into a list of unique incorrect options
     final fakeOptions = fakeResponses
         .split('\n')
-        .map((s) => _cleanAnswer(s.trim())) // Clean responses
+        .map((s) => _cleanAnswer(s.trim()))
         .where(
             (s) => s.isNotEmpty && _normalize(s) != _normalize(_correctAnswer))
         .toSet()
         .toList();
 
-    // Ensure we have 3 incorrect options
     while (fakeOptions.length < 3) {
       fakeOptions.add("Random${fakeOptions.length + 1}");
     }
 
-    // Add wrong answers & shuffle
     _answerOptions.addAll(fakeOptions.take(3));
     _answerOptions.shuffle();
-    notifyListeners();
   }
 
-  /// Returns an AI prompt to generate wrong answers based on the quiz type
-  /// Returns an AI prompt to generate wrong answers based on the quiz type.
-  /// Ensures the response matches the format of the correct answer (word vs. sentence).
   String _getPromptForWrongAnswers() {
     final word = _currentWord!.word;
-    final isSentence =
-        _correctAnswer.trim().contains(' '); // Check if it's a sentence
+    final isSentence = _correctAnswer.trim().contains(' ');
 
     switch (_selectedTagIndex) {
       case 0: // Meaning Quiz
@@ -153,15 +148,12 @@ class QuizProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Normalize text to improve comparison (ignores case & trims spaces)
   String _normalize(String text) {
     return text.trim().toLowerCase();
   }
 
   String _cleanAnswer(String answer) {
     final keywordPattern = RegExp(r'^\*\*(\w+)\s*:\*\*', caseSensitive: false);
-    return answer
-        .replaceAll(keywordPattern, '') // Remove "**Keyword:**"
-        .trim(); // Remove leading and trailing spaces
+    return answer.replaceAll(keywordPattern, '').trim();
   }
 }
