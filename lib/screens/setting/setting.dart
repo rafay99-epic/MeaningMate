@@ -20,11 +20,18 @@ class _SettingScreensState extends State<SettingScreens> {
   String buildVersion = "Loading...";
 
   Future<void> _getAppVersion() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    setState(() {
-      appVersion = packageInfo.version;
-      buildVersion = packageInfo.buildNumber;
-    });
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      setState(() {
+        appVersion = packageInfo.version;
+        buildVersion = packageInfo.buildNumber;
+      });
+    } catch (e) {
+      setState(() {
+        appVersion = 'Not available';
+        buildVersion = 'Not available';
+      });
+    }
   }
 
   @override
