@@ -7,6 +7,7 @@ import 'package:meaning_mate/providers/layout_provider.dart';
 import 'package:meaning_mate/providers/quiz_provider.dart';
 import 'package:meaning_mate/providers/search_provider.dart';
 import 'package:meaning_mate/repositories/auth_repository.dart';
+import 'package:meaning_mate/repositories/quiz_repository.dart';
 import 'package:meaning_mate/repositories/word_repository.dart';
 import 'package:meaning_mate/screens/errorhandelling/error_handelling.dart';
 import 'package:meaning_mate/screens/home/home_screen.dart';
@@ -46,13 +47,14 @@ class MyApp extends StatelessWidget {
           create: (_) => LayoutProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => ChatbotProvider(
-              apiKey: 'AIzaSyAlcHuNeDpSzw18BXpwvC-ff7e_VppkpjM'),
+          create: (_) => ChatbotProvider(apiKey: ''),
         ),
         ChangeNotifierProvider(
           create: (_) => QuizProvider(
-              chatbotRepository: ChatbotRepository(
-                  apiKey: 'AIzaSyAlcHuNeDpSzw18BXpwvC-ff7e_VppkpjM')),
+            quizRepository: QuizRepository(
+              chatbotRepository: ChatbotRepository(apiKey: ""),
+            ),
+          ),
         ),
       ],
       child: MaterialApp(
