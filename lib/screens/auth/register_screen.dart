@@ -142,44 +142,81 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               SizedBox(height: spacing),
               ElevatedButton(
-                onPressed: () {
-                  // Password and retype password should match
-                  if (passwordController.text.trim() !=
-                      retypePasswordController.text.trim()) {
-                    authRepository.showErrorDialog(context, "Password Mismatch",
-                        "Passwords do not match. Please try again.");
+                onPressed: () async {
+                  // Validate all fields
+                  if (fullNameController.text.trim().isEmpty ||
+                      emailController.text.trim().isEmpty ||
+                      passwordController.text.trim().isEmpty ||
+                      phoneController.text.trim().isEmpty) {
+                    authRepository.showErrorDialog(
+                      context,
+                      "Validation Error",
+                      "All fields are required",
+                    );
                     return;
                   }
 
-                  // Handle registration
-                  authRepository.register(
-                    context,
-                    emailController.text.trim(),
-                    fullNameController.text.trim(),
-                    passwordController.text.trim(),
-                    phoneController.text.trim(),
-                  );
+                  // Password and retype password should match
+                  if (passwordController.text.trim() !=
+                      retypePasswordController.text.trim()) {
+                    authRepository.showErrorDialog(
+                      context,
+                      "Password Mismatch",
+                      "Passwords do not match. Please try again.",
+                    );
+                    return;
+                  }
 
-                  // Clear all text fields
-                  fullNameController.clear();
-                  emailController.clear();
-                  passwordController.clear();
-                  retypePasswordController.clear();
-                  phoneController.clear();
+                  try {
+                    await authRepository.register(
+                      context,
+                      emailController.text.trim(),
+                      fullNameController.text.trim(),
+                      passwordController.text.trim(),
+                      phoneController.text.trim(),
+                    );
 
-                  SnackBar snackBar = const SnackBar(
-                    behavior: SnackBarBehavior.floating,
-                    content: Text(
-                      "Registration Successful",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                    backgroundColor: Colors.green,
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    // Clear fields and show success message only after successful registration
+                    fullNameController.clear();
+                    emailController.clear();
+                    passwordController.clear();
+                    retypePasswordController.clear();
+                    phoneController.clear();
+
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          content: Text(
+                            "Registration Successful",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          content: Text(
+                            "Registration failed: ${e.toString()}",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  }
                 },
+              )
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
                   textStyle: const TextStyle(fontSize: 18),
